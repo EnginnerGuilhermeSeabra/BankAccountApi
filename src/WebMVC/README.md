@@ -201,27 +201,17 @@ Reutiliza namespaces de:
 - `TES.Domain` - Entidades de domínio
 - `TES.Infrastructure` - Persistência
 
-## ⚙️ Próximos Passos
-
-- [ ] Implementar listagem de contas com paginação
-- [ ] Adicionar autenticação/autorização
-- [ ] Integrar com banco de dados SQL Server
-- [ ] Adicionar mais validações no cliente (JavaScript)
-- [ ] Melhorar UI com CSS/Bootstrap
-- [ ] Adicionar testes integrados
-- [ ] Implementar notificações com SignalR
-- [ ] Adicionar exportação de relatórios
 
 ## 🤝 Relação com TES.WebAPI
 
-| Aspecto | WebMVC | WebAPI |
-|---------|--------|--------|
-| Apresentação | Razor Views | JSON/REST |
-| Tipo | Tradicional MVC | API RESTful |
-| Protocolo | HTTP/HTTPS | HTTP/HTTPS |
-| Resposta | HTML | JSON |
-| Cliente | Navegador | Postman/SPA |
-| Camada | Web | Serviço |
+| Aspecto | WebMVC |
+|---------|--------|
+| Apresentação | Razor Views |
+| Tipo | Tradicional MVC |
+| Protocolo | HTTP/HTTPS |
+| Resposta | HTML |
+| Cliente | Navegador |
+| Camada | Web |
 
 Ambos compartilham:
 - Application layer (CQRS)
