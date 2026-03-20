@@ -1,0 +1,82 @@
+@using System.Diagnostics
+@inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment env
+
+@{
+    ViewData["Title"] = "Erro";
+}
+
+<div class="row justify-content-center min-vh-100 align-items-center">
+    <div class="col-lg-6">
+        <div class="text-center mb-5">
+            <i class="bi bi-exclamation-triangle-fill" style="font-size: 4rem; color: #ef4444;"></i>
+            <h1 class="display-4 mt-3 mb-2">Oops!</h1>
+            <p class="lead text-muted">Algo deu errado ao processar sua solicitação.</p>
+        </div>
+
+        <div class="card border-0 shadow-lg">
+            <div class="card-body p-5">
+                <div class="alert alert-danger mb-4">
+                    <i class="bi bi-exclamation-lg"></i> <strong>Erro Detectado</strong>
+                    @if (ViewData["ErrorMessage"] is string errorMsg)
+                    {
+                        <p class="mb-0 mt-2">@errorMsg</p>
+                    }
+                </div>
+
+                <div class="bg-light p-4 rounded mb-4">
+                    <h6 class="text-muted mb-2">
+                        <i class="bi bi-gear"></i> Ambiente
+                    </h6>
+                    <p class="mb-0">
+                        <strong>@env.EnvironmentName</strong>
+                    </p>
+                </div>
+
+                <div class="bg-light p-4 rounded mb-4">
+                    <h6 class="text-muted mb-2">
+                        <i class="bi bi-fingerprint"></i> ID da Requisição
+                    </h6>
+                    <p class="mb-0 font-monospace small">
+                        <code>@Activity.Current?.Id ?? HttpContext?.TraceIdentifier</code>
+                    </p>
+                </div>
+
+                @if (env.IsDevelopment())
+                {
+                    <div class="alert alert-warning">
+                        <i class="bi bi-info-circle"></i>
+                        <strong> Modo Desenvolvimento</strong>
+                        <p class="mb-0 mt-2">
+                            Detalhes adicionais de erro estão disponíveis. 
+                            Remova este aviso em produção.
+                        </p>
+                    </div>
+                }
+
+                <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mt-5">
+                    <a href="@Url.Action("Index", "Home")" class="btn btn-primary btn-lg">
+                        <i class="bi bi-house"></i> Voltar para Home
+                    </a>
+                    <a href="javascript:history.back()" class="btn btn-outline-secondary btn-lg">
+                        <i class="bi bi-arrow-left"></i> Voltar
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-4 text-center text-muted">
+            <small>
+                Se o problema persistir, entre em contato com o suporte.
+                <br>
+                <i class="bi bi-telephone"></i> Suporte: support@tes-fintech.com
+            </small>
+        </div>
+    </div>
+</div>
+
+<style>
+    .min-vh-100 {
+        min-height: 100vh;
+    }
+</style>
+

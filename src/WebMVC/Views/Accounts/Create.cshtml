@@ -1,0 +1,74 @@
+@model TES.Application.Accounts.Commands.CreateAccount.CreateAccountCommand
+
+@{
+    ViewData["Title"] = "Criar Nova Conta";
+}
+
+<div class="row justify-content-center mb-5">
+    <div class="col-lg-8">
+        <div class="d-flex align-items-center mb-4">
+            <div class="me-3">
+                <i class="bi bi-plus-circle display-4 text-primary"></i>
+            </div>
+            <div>
+                <h1>@ViewData["Title"]</h1>
+                <p class="text-muted mb-0">Preencha os dados abaixo para criar uma nova conta bancária</p>
+            </div>
+        </div>
+
+        <div class="card border-0 shadow">
+            <div class="card-body p-4">
+                <form asp-action="Create" method="post" novalidate>
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert">
+                        <i class="bi bi-exclamation-triangle"></i>
+                        <strong>Erro na validação</strong>
+                        <p>Por favor, verifique os campos abaixo:</p>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="NomeTitular" class="form-label fw-bold">
+                            <i class="bi bi-person"></i> Nome do Titular
+                        </label>
+                        <input asp-for="NomeTitular" class="form-control form-control-lg" placeholder="Ex: João Silva Santos" />
+                        <span asp-validation-for="NomeTitular" class="invalid-feedback d-block"></span>
+                        <small class="text-muted">Informe o nome completo do titular da conta</small>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="Cpf" class="form-label fw-bold">
+                            <i class="bi bi-card-text"></i> CPF
+                        </label>
+                        <input asp-for="Cpf" class="form-control form-control-lg" placeholder="Ex: 12345678901" inputmode="numeric" />
+                        <span asp-validation-for="Cpf" class="invalid-feedback d-block"></span>
+                        <small class="text-muted">Apenas números (11 dígitos)</small>
+                    </div>
+
+                    <div class="d-grid gap-2 d-sm-flex justify-content-sm-between mt-5">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="bi bi-check-circle"></i> Criar Conta
+                        </button>
+                        <a asp-action="Index" class="btn btn-outline-secondary btn-lg">
+                            <i class="bi bi-arrow-left"></i> Cancelar
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="alert alert-info mt-4" role="alert">
+            <i class="bi bi-info-circle"></i>
+            <strong>Informações Importantes:</strong>
+            <ul class="mb-0 mt-2">
+                <li>O nome do titular deve conter entre 3 e 150 caracteres</li>
+                <li>O CPF deve ser válido segundo o algoritmo de verificação</li>
+                <li>Após criar, você poderá visualizar, editar ou excluir a conta</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

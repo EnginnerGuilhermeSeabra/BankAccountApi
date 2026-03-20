@@ -1,0 +1,146 @@
+@model IReadOnlyList<TES.Application.Accounts.DTOs.AccountDto>
+@using TES.Domain.Accounts.Enums
+
+@{
+    ViewData["Title"] = "Contas Bancárias";
+    var totalContas = Model.Count;
+    var ativas = Model.Count(a => a.Status == AccountStatus.Ativa);
+}
+
+<div class="mb-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="mb-2">
+                <i class="bi bi-credit-card2-front"></i> Gerenciamento de Contas
+            </h1>
+            <p class="text-muted">Visualize e gerencie todas as contas bancárias</p>
+        </div>
+        <a asp-action="Create" class="btn btn-primary btn-lg">
+            <i class="bi bi-plus-circle"></i> Nova Conta
+        </a>
+    </div>
+
+    @if (TempData["Success"] is string success)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle"></i> @success
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+    @if (TempData["Error"] is string error)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-circle"></i> @error
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <div class="card border-0 shadow-sm">
+        <div class="card-body p-4">
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <div class="bg-light p-4 rounded text-center">
+                        <p class="text-muted mb-0">Total de Contas</p>
+                        <h3 class="mb-0 text-primary">@totalContas</h3>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="bg-light p-4 rounded text-center">
+                        <p class="text-muted mb-0">Contas Ativas</p>
+                        <h3 class="mb-0 text-success">@ativas</h3>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="bg-light p-4 rounded text-center">
+                        <p class="text-muted mb-0">Inativas</p>
+                        <h3 class="mb-0 text-danger">@(totalContas - ativas)</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card border-0 shadow-sm mt-4">
+        <div class="card-header bg-white border-bottom">
+            <h5 class="mb-0">
+                <i class="bi bi-table"></i> Tabela de Contas
+            </h5>
+        </div>
+        <div class="card-body p-0">
+            @if (!Model.Any())
+            {
+                <p class="text-center text-muted py-5">
+                    <i class="bi bi-inbox" style="font-size: 2rem;"></i>
+                    <br>
+                    Nenhuma conta cadastrada ainda.
+                    <br>
+                    <a asp-action="Create" class="btn btn-primary mt-3">
+                        <i class="bi bi-plus-circle"></i> Criar Conta
+                    </a>
+                </p>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover table-bordered mb-0 align-middle" style="min-width: 800px;">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="py-4 px-4">Titular</th>
+                                <th class="py-4 px-4">CPF</th>
+                                <th class="py-4 px-4">Status</th>
+                                <th class="py-4 px-4">Último Evento</th>
+                                <th class="py-4 px-4">Criado em</th>
+                                <th class="py-4 px-4 text-end">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var account in Model)
+                            {
+                                <tr>
+                                    <td class="py-4 px-4">@account.NomeTitular</td>
+                                    <td class="py-4 px-4">@account.Cpf</td>
+                                    <td class="py-4 px-4">
+                                        @if (account.Status == AccountStatus.Ativa)
+                                        {
+                                            <span class="badge bg-success">Ativa</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-secondary">Inativa</span>
+                                        }
+                                    </td>
+                                    <td class="py-4 px-4">
+                                        @{
+                                            var (eventColor, eventIcon, eventLabel) = account.LastEvent switch
+                                            {
+                                                AccountEvent.Created => ("success", "bi-plus-circle", "Criado"),
+                                                AccountEvent.Updated => ("warning", "bi-pencil", "Atualizado"),
+                                                AccountEvent.Deleted => ("danger", "bi-trash", "Excluído"),
+                                                _ => ("secondary", "bi-question-circle", "Desconhecido")
+                                            };
+                                        }
+                                        <span class="badge bg-@eventColor">
+                                            <i class="bi @eventIcon"></i> @eventLabel
+                                        </span>
+                                    </td>
+                                    <td class="py-4 px-4">@account.CriadoEm.ToString("dd/MM/yyyy HH:mm")</td>
+                                    <td class="py-4 px-4 text-end">
+                                        <a asp-action="Details" asp-route-id="@account.Id" class="btn btn-sm btn-outline-primary">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                        <a asp-action="Edit" asp-route-id="@account.Id" class="btn btn-sm btn-outline-secondary">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                        <a asp-action="Delete" asp-route-id="@account.Id" class="btn btn-sm btn-outline-danger">
+                                            <i class="bi bi-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+</div>

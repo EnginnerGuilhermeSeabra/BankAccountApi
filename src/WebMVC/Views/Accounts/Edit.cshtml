@@ -1,0 +1,74 @@
+@model TES.WebMVC.Models.EditAccountViewModel
+
+@{
+    ViewData["Title"] = "Editar Conta";
+}
+
+<div class="row justify-content-center mb-5">
+    <div class="col-lg-8">
+        <div class="d-flex align-items-center mb-4">
+            <div class="me-3">
+                <i class="bi bi-pencil-square display-4 text-warning"></i>
+            </div>
+            <div>
+                <h1>@ViewData["Title"]</h1>
+                <p class="text-muted mb-0">Atualize os dados da conta</p>
+            </div>
+        </div>
+
+        <div class="card border-0 shadow">
+            <div class="card-body p-4">
+                <form asp-action="Edit" asp-route-id="@Model.Id" method="post" novalidate>
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert">
+                        <i class="bi bi-exclamation-triangle"></i>
+                        <strong>Erro na validação</strong>
+                    </div>
+
+                    <input type="hidden" asp-for="Id" />
+
+                    <div class="mb-4">
+                        <label asp-for="NomeTitular" class="form-label fw-bold">
+                            <i class="bi bi-person"></i> Nome do Titular
+                        </label>
+                        <input asp-for="NomeTitular" class="form-control form-control-lg" />
+                        <span asp-validation-for="NomeTitular" class="invalid-feedback d-block"></span>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="Status" class="form-label fw-bold">
+                            <i class="bi bi-toggle2-on"></i> Status
+                        </label>
+                        <select asp-for="Status" class="form-select form-select-lg">
+                            <option value="1">Ativa</option>
+                            <option value="2">Inativa</option>
+                        </select>
+                        <span asp-validation-for="Status" class="invalid-feedback d-block"></span>
+                    </div>
+
+                    <div class="d-grid gap-2 d-sm-flex justify-content-sm-between mt-5">
+                        <button type="submit" class="btn btn-warning btn-lg">
+                            <i class="bi bi-check-circle"></i> Salvar Alterações
+                        </button>
+                        <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-outline-secondary btn-lg">
+                            <i class="bi bi-arrow-left"></i> Cancelar
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="alert alert-info mt-4" role="alert">
+            <i class="bi bi-info-circle"></i>
+            <strong>Histórico:</strong>
+            <p class="mb-0 mt-2">
+                ID da Conta: <code>@Model.Id</code>
+            </p>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

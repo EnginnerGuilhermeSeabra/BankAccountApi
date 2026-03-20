@@ -1,0 +1,13 @@
+## .NET
+*.user
+*.suo
+.vs/
+bin/
+obj/
+*.nupkg
+*.snupkg
+*.log
+TestResults/
+.env
+appsettings.*.json
+!appsettings.Development.json
